@@ -120,7 +120,7 @@ vue에선 <a href="https://webruden.tistory.com/485" target="_blank">한글 입�
 
 `<style>` 영역에 있는 css는 딱히 어려울 게 없을 듯한데요. `#search_div`는 화면 스크롤시 상단에 고정되도록 하는 css가 작성된 것이고, `input`는 입력란 너비가 화면에 꽉 차게 하는 css입니다. svelte에선 각 컴포넌트의 `<style>` 지정이 해당 컴포넌트의 HTML 태그에만 반영되기 때문에, `input` 이렇게 특정 태그 자체에 스타일 지정하더라도 다른 컴포넌트의 `input`에는 전혀 영향을 주지 않습니다. svelte 컴포넌트의 HTML 코드가 복잡하지 않다면 그냥 심플하게 태그 자체에 스타일을 지정할 수 있어서 HTML 코드가 아주 간결해지고 스타일 지정이 그만큼 간편해집니다.
 
-그럼 이제 다 됐습니다. 여기서 설명한 소스코드는 <a href="https://github.com/lee-eung/svelte-korean-autocomplete" target="_blank">여기</a>에 모두 있구요. <a href="https://lee-eung.github.io/svelte/korean-autocomp/" target="_blank">Svelte로 만든 한글 검색어 자동완성 페이지</a>에서 테스트해보실 수 있습니다.
+그럼 이제 다 됐습니다. 여기서 설명한 소스코드는 여기에 모두 있구요. <a href="https://lee-eung.github.io/svelte/korean-autocomp/" target="_blank">Svelte로 만든 한글 검색어 자동완성 페이지</a>에서 테스트해보실 수 있습니다.
 
 여기선 검색할 단어들을 편의상 `src/word-list.js` 파일에 담아두고 작업했지만, REST API를 통해`fetch`로 데이터를 가져와서 작업할 수도 있을텐데요. 이럴 땐 `src/word-list.js`에서 대략 다음과 같이 코드를 작성하면 될 겁니다.
 
