@@ -110,19 +110,19 @@ export const wordList = ['나물비빔밥', '오곡밥', '잡채밥', '콩나물
 </div>
 ```
 
-이렇게 만들어진 한글 검색어 자동완성 컴포넌트는 한글 검색 기능이 필요한 어디서든 사용할 수 있습니다. Svelte 특유의 간결함 덕분에 소스코드를 이해하기 어렵지 않을 거라 생각합니다. `<script>` 영역은 그냥 일반적인 바닐라 자바스크립트 코드이고, Svelte만의 syntax는 `<div class="content">` 영역에 HTML 태그와 함께 있는 코드가 전부입니다. 
+이 한글 검색어 자동완성 컴포넌트는 한글 검색 기능이 필요한 어디서든 사용할 수 있습니다. Svelte 특유의 간결함 덕분에 소스코드를 이해하기 어렵지 않을 거라 생각합니다. `<script>` 영역은 그냥 일반적인 바닐라 자바스크립트 코드이고, Svelte만의 syntax는 `<div class="content">` 영역에 HTML 태그와 함께 있는 코드가 전부입니다. 
 
 `<input bind:value={inputText}>` 여기서 `bind:value={inputText}` 요부분이 Svelte만의 syntax인데요. HTML의 `<input>`태그로 만들어진 입력란에서 글자를 타이핑하면, 그 검색어 문자열이 `inputText` 변수에 바인딩된다는 뜻입니다.
 
-vue에선 <a href="https://webruden.tistory.com/485" target="_blank">한글 입력시 커서가 위치한 음소나 음절이 바인딩되지 않는 문제</a>가 있다보니 <a href="https://github.com/whdckszxxx/vue-korean-autocomplete" target="_blank">vue-korean-autocomplete</a>에서 구현한 것처럼 키를 누르고 있는 상태에서도 입력한 음소나 음절을 바인딩하기 위한 코드가 복잡하게 들어가기도 하는데요. <a href="https://webruden.tistory.com/485" target="_blank">여기</a>에선 비교적 간단하게 해결하던데 코드의 복잡성 차이가 이렇게 크게 발생하는 자세한 이유까진 살펴보지 않았지만, 아무튼 svelte에선 어떤 추가 작업도 필요 없습니다. svelte에선 virtual DOM을 사용하지 않아서 한글 입력시 커서가 위치한 음소나 음절도 정확하게 바인딩되기 때문에 `bind:value={inputText}` 이거만으로도 한글 문자열을 알파벳 다루듯 처리할 수 있습니다.
+vue에선 <a href="https://webruden.tistory.com/485" target="_blank">한글 입력시 커서가 위치한 음소나 음절이 바인딩되지 않는 문제</a>가 있다보니 <a href="https://github.com/whdckszxxx/vue-korean-autocomplete" target="_blank">vue-korean-autocomplete</a>에서 구현한 것처럼 키 입력에 대한 이벤트 처리 코드가 복잡하게 들어가기도 하는데요. <a href="https://webruden.tistory.com/485" target="_blank">여기</a>에선 비교적 간단하게 해결하던데 코드의 복잡성 차이가 이렇게 크게 발생하는 자세한 이유까진 살펴보지 않았지만, 아무튼 svelte에선 어떤 추가 작업도 필요 없습니다. svelte에선 (별도의 키입력 이벤트 처리없이) 한글 입력시 커서가 위치한 음소나 음절도 정확하게 바인딩되기 때문에 `bind:value={inputText}` 이것만으로도 한글 문자열을 알파벳 다루듯 처리할 수 있습니다.
 
-`{#each matchedWords(inputText) as matched_word} ... {/each}` 이 코드도 Svelte만의 로직인데요. 바닐라 자바스크립트라면 `for (const matched_word in matchedWords(inputText)) { ... }` 이렇게 되겠죠. `{@html makeBold(matched_word.text)}` 이 코드는 검색된 문자열에서 검색어의 음소/음절 부분에 강조 표시한 결과를 화면에 표시하되, 강조 표시로 사용된 HTML 태그를 랜더링하기 위해 `@html`이 사용되었습니다.
+`{#each matchedWords(inputText) as matched_word} ... {/each}` 이 코드도 Svelte만의 로직인데요. 바닐라 자바스크립트로 번역하면 `for (const matched_word in matchedWords(inputText)) { ... }` 이렇게 되겠죠. `{@html makeBold(matched_word.text)}` 이 코드는 검색된 문자열에서 검색어의 음소/음절 부분에 강조 표시한 결과를 화면에 표시하되, 강조 표시로 사용된 HTML 태그를 랜더링하기 위해 `@html`이 사용되었습니다.
 
-`<style>` 영역에 있는 css는 딱히 어려울 게 없을 듯한데요. `#search_div`는 화면 스크롤시 상단에 고정되도록 하는 css가 작성된 것이고, `input`는 입력란 너비가 화면에 꽉 차게 하는 css입니다. svelte에선 각 컴포넌트의 `<style>` 지정이 해당 컴포넌트의 HTML 태그에만 반영되기 때문에, `input` 이렇게 특정 태그 자체에 스타일 지정하더라도 다른 컴포넌트의 `input`에는 전혀 영향을 주지 않습니다. svelte 컴포넌트의 HTML 코드가 복잡하지 않다면 그냥 심플하게 태그 자체에 스타일을 지정할 수 있어서 HTML 코드가 아주 간결해지고 스타일 지정이 그만큼 간편해집니다.
+`<style>` 영역에 있는 css는 딱히 어려울 게 없을 듯한데요. `#search_div`는 화면 스크롤시 상단에 고정되도록 하는 css가 작성된 것이고, `input`는 입력란 너비가 화면에 꽉 차게 하는 css입니다. svelte에선 각 컴포넌트의 `<style>` 지정이 해당 컴포넌트의 HTML 태그에만 반영되기 때문에, `input` 같은 특정 태그 자체에 스타일 지정하더라도 다른 컴포넌트의 `input`에는 전혀 영향을 주지 않습니다. svelte 컴포넌트의 HTML 코드가 복잡하지 않다면 그냥 심플하게 태그 자체에 스타일을 지정할 수 있어서 HTML 코드가 아주 간결해지고 스타일 지정이 그만큼 간편해집니다.
 
-그럼 이제 다 됐습니다. 여기서 설명한 소스코드는 여기에 모두 있구요. <a href="https://lee-eung.github.io/svelte/korean-autocomp/" target="_blank">Svelte로 만든 한글 검색어 자동완성 페이지</a>에서 테스트해보실 수 있습니다.
+그럼 이제 다 됐습니다. 여기서 소개한 svelte 컴포넌트의 기능은 <a href="https://lee-eung.github.io/svelte/korean-autocomp/" target="_blank">Svelte로 만든 한글 검색어 자동완성 페이지</a>에서 테스트해보실 수 있습니다.
 
-여기선 검색할 단어들을 편의상 `src/word-list.js` 파일에 담아두고 작업했지만, REST API를 통해`fetch`로 데이터를 가져와서 작업할 수도 있을텐데요. 이럴 땐 `src/word-list.js`에서 대략 다음과 같이 코드를 작성하면 될 겁니다.
+그리고 여기선 검색할 단어들을 편의상 `src/word-list.js` 파일에 담아두고 작업했지만, REST API를 통해`fetch`로 데이터를 가져와서 작업할 수도 있을텐데요. 이럴 땐 `src/word-list.js`에서 대략 다음과 같이 코드를 작성하면 될 겁니다.
 
 ```javascript
 function getData() {
@@ -142,4 +142,4 @@ function getData() {
 export const wordList = getData(); // fetch로 가져온 배열을 svelte 컴포넌트에서 쓸 수 있게 export 처리합니다.
 ```
 
-이상으로 "Svelte로 한글 검색어 자동완성 구현하기"를 마치겠습니다. 아마 이 정도면 svelte로 앱을 만들 때 검색어 자동완성 컴포넌트를 다양하게 활용할 수 있을 듯한데요. 중요한 내용은 모두 다뤄졌다고 생각되지만 혹시 빠트린 내용이 있으면 댓글로 말씀해주시기 바랍니다. 끝까지 읽어주셔서 감사합니다. ^^
+이상으로 "Svelte로 한글 검색어 자동완성 구현하기"를 마치겠습니다. 아마 이 정도면 svelte로 앱을 만들 때 검색어 자동완성 컴포넌트를 다양하게 활용할 수 있을 듯한데요. 중요한 내용은 모두 다뤄졌다고 생각되지만 혹시 빠트린 내용이 있으면 <a href="https://lee-eung.github.io/svelte-korean-autocomplete/" target="_blank">제 블로그</a> 댓글로 말씀해주시기 바랍니다. 끝까지 읽어주셔서 감사합니다. ^^
