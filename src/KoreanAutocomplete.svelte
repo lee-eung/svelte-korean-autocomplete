@@ -1,12 +1,12 @@
 <script>
     import Hangul from 'hangul-js';
-    import { wordList } from "./word-list.js";
+    import wordList from "./word-list.js";
 
     let inputText = '';
 
     function matchedWords( searchText ) {
-        let searcher = new Hangul.Searcher(searchText);
-        let output = [];
+        const searcher = new Hangul.Searcher(searchText);
+        const output = [];
         let search_v = -1;
         wordList.forEach( word => {
             search_v = searcher.search(word);
@@ -20,7 +20,7 @@
     }
     function makeBold( targetWord ) {
         let shift = 0;
-        let strArray = targetWord.split('');
+        const strArray = targetWord.split('');
         const boldPoints = Hangul.rangeSearch(targetWord, inputText);
         boldPoints.forEach( indexs => {
             strArray.splice(indexs[0]+(shift++),0,'<b style="color:#1E94FC;">');
