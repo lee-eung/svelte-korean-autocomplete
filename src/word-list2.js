@@ -1,5 +1,5 @@
 function getData() {
-    let titles = [];
+    const titles = [];
 
     fetch('https://jsonplaceholder.typicode.com/albums')
         .then(response => response.json())
@@ -12,4 +12,5 @@ function getData() {
     return titles;
 }
 
-export const wordList = getData();    
+const wordList = getData();    
+export default wordList;
